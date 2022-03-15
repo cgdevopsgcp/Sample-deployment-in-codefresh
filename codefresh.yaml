@@ -1,0 +1,28 @@
+# More examples of Codefresh YAML can be found at
+# https://codefresh.io/docs/docs/yaml-examples/examples/
+
+version: "1.0"
+# Stages can help you organize your steps in stages
+stages:
+  - "clone"
+  - "deploy"
+
+steps:
+  clone:
+    title: "Cloning repository"
+    type: "git-clone"
+    repo: "cgdevopsgcp/tomcat"
+    # CF_BRANCH value is auto set when pipeline is triggered
+    # Learn more at codefresh.io/docs/docs/codefresh-yaml/variables/
+    revision: "${{CF_BRANCH}}"
+    git: "github"
+    stage: "clone"
+  
+  Deploy:
+    title: Deploying App 1
+        type : freestyle
+        stage: deploy
+        image: nginx
+        working_directory: ./my-project/
+        commands:  
+          - kubectl apply -f service.yaml deployment.yaml 
